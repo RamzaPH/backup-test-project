@@ -1,0 +1,537 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Opti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="{{ url_for('static', filename='stylesheets/style.css') }}" rel="stylesheet" />
+    <!-- Link to the external CSS file -->
+  </head>
+  <body class="font-roboto bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg sticky-top">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex justify-between items-center">
+          <!-- Logo and Name -->
+          <div class="flex items-center space-x-2">
+            <a class="flex items-center" href="#">
+              <img
+                alt="Optometric Clinic Logo"
+                class="h-8 w-8 mr-2"
+                src="{{ url_for('static', filename='src/logo2.jpg') }}"
+              />
+              <span class="font-semibold text-gray-500 text-lg">
+                Bayugo-Dichoso Optometric Clinic
+              </span>
+            </a>
+          </div>
+          <!-- Navigation Links -->
+          <div class="hidden md:flex items-center space-x-4">
+            <a
+              class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              href="#"
+            >
+              Home
+            </a>
+            <a
+              class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              href="#about"
+            >
+              About
+            </a>
+            <a
+              class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              href="#services"
+            >
+              Services
+            </a>
+            <a
+              class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              href="#contact"
+            >
+              Contact
+            </a>
+          </div>
+          <!-- Log In and Sign Up -->
+          <div class="hidden md:flex items-center space-x-3">
+            <a
+              class="py-2 px-4 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300"
+              href="{{ url_for('login') }}"
+            >
+              Log In
+            </a>
+            <a
+              class="py-2 px-4 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300"
+              href="{{ url_for('signup') }}"
+            >
+              Sign Up
+            </a>
+          </div>
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden flex items-center">
+            <button class="outline-none mobile-menu-button">
+              <svg
+                class="w-6 h-6 text-gray-500 hover:text-green-500"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewbox="0 0 24 24"
+              >
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Mobile Menu -->
+      <div class="hidden mobile-menu sticky-mobile">
+        <ul>
+          <li>
+            <a
+              class="block text-sm px-2 py-4 text-gray-500 hover:bg-green-500 hover:text-white transition duration-300"
+              href="#home"
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              class="block text-sm px-2 py-4 text-gray-500 hover:bg-green-500 hover:text-white transition duration-300"
+              href="#services"
+            >
+              Services
+            </a>
+          </li>
+          <li>
+            <a
+              class="block text-sm px-2 py-4 text-gray-500 hover:bg-green-500 hover:text-white transition duration-300"
+              href="#about"
+            >
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              class="block text-sm px-2 py-4 text-gray-500 hover:bg-green-500 hover:text-white transition duration-300"
+              href="#contact"
+            >
+              Contact
+            </a>
+          </li>
+          <!-- Log In -->
+          <li>
+            <a
+              class="block text-sm px-2 py-4 text-gray-500 hover:bg-green-500 hover:text-white transition duration-300"
+              href="{{ url_for('login') }}"
+            >
+              Log In
+            </a>
+          </li>
+          <!-- Sign Up -->
+          <li>
+            <a
+              class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold hover:bg-green-400 transition duration-300 text-center rounded"
+              href="{{ url_for('signup') }}"
+            >
+              Sign Up
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <script>
+      const btn = document.querySelector("button.mobile-menu-button");
+      const menu = document.querySelector(".mobile-menu");
+
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
+    </script>
+    <!-- Hero Section -->
+    <div
+      id="home"
+      class="bg-white fade-in min-h-screen flex items-center justify-center"
+    >
+      <div
+        class="container mx-auto flex flex-col md:flex-row items-center justify-center p-4"
+      >
+        <div
+          class="flex flex-col w-full lg:w-1/3 justify-center items-center text-center"
+        >
+          <h1 class="text-3xl md:text-5xl p-2 text-blue-500 tracking-loose">
+            Bayugo-Dichoso
+          </h1>
+          <h2 class="text-3xl md:text-5xl leading-relaxed md:leading-snug mb-2">
+            Optometric Clinic
+          </h2>
+          <p class="text-sm md:text-base text-gray-500 mb-4">
+            The Bayugo-Dichoso Optometric Clinic (BDOC) started its roots in
+            Carmona, Cavite during the late 1970's as a part of the Bayugo
+            Polyclinic which was comprised by the Vargas-Bayugo siblings, who
+            all of which are doctors with different specializations. Now with 45
+            years in the industry, we continue to pursue our mission to promote
+            health and wellness through the eyes of our clients.
+          </p>
+          <a
+            class="bg-green-500 hover:bg-green-700 text-white rounded-lg px-4 py-2 scale-on-hover"
+            href="#services"
+          >
+            Explore Services
+          </a>
+        </div>
+        <div class="p-4 flex justify-center">
+          <img
+            alt="Optometrist examining a patient's eyes with specialized equipment"
+            class="rounded-lg shadow-xl fade-in max-w-xs md:max-w-md h-auto"
+            src="{{ url_for('static', filename='src/logo.jpg') }}"
+          />
+        </div>
+      </div>
+    </div>
+    <!-- Services Section -->
+    <section class="bg-gray-100 py-8" id="services">
+      <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
+        <h2
+          class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800"
+        >
+          Our Services
+        </h2>
+        <div class="w-full mb-4">
+          <div
+            class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+          ></div>
+        </div>
+        <div class="flex flex-wrap">
+          <!-- Service 1 -->
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">
+                  Vision & External Eye Examination
+                </h3>
+                <p class="text-gray-600">
+                  Comprehensive evaluation of your vision and external eye
+                  health.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Service 2 -->
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Refraction</h3>
+                <p class="text-gray-600">
+                  Accurate measurement of your prescription for eyeglasses or
+                  contact lenses.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Service 3 -->
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">
+                  Color Vision Testing
+                </h3>
+                <p class="text-gray-600">
+                  Assessment of your ability to distinguish between different
+                  colors.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Service 4 -->
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">
+                  Visual Acuity Testing & Clearance
+                </h3>
+                <p class="text-gray-600">
+                  Testing and certification of your visual acuity for various
+                  purposes.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Service 5 -->
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">
+                  Complete Eyeglasses Packages
+                </h3>
+                <p class="text-gray-600">
+                  Affordable packages for eyeglasses, including frames and
+                  lenses.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Service 6 -->
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">
+                  Contact Lenses and Solutions
+                </h3>
+                <p class="text-gray-600">
+                  Wide range of contact lenses and cleaning solutions for your
+                  needs.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Service 7 -->
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">
+                  Dry Eye Management
+                </h3>
+                <p class="text-gray-600">
+                  Specialized treatments to alleviate symptoms of dry eye
+                  syndrome.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Service 8 -->
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">
+                  Eyewear Maintenance & Repairs
+                </h3>
+                <p class="text-gray-600">
+                  Professional maintenance and repair services for your eyewear.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- About Section -->
+    <section class="bg-white py-8" id="about">
+      <div class="container mx-auto flex flex-wrap pt-4 pb-12">
+        <h2
+          class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800"
+        >
+          About Us
+        </h2>
+        <div class="w-full mb-4">
+          <div
+            class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+          ></div>
+        </div>
+        <div class="flex flex-wrap">
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <a
+                class="flex flex-wrap no-underline hover:no-underline"
+                href="#"
+              >
+                <img
+                  alt="Optometric clinic interior with modern equipment"
+                  class="h-64 w-full rounded-t pb-6"
+                  height="400"
+                  src="https://storage.googleapis.com/a1aa/image/ZJsPcDYgW8C8skKy5JOXb1OSKh3jFN3SMXVHWg2sL4s.jpg"
+                  width="600"
+                />
+                <div class="w-full font-bold text-xl text-gray-800 px-6">
+                  Our Clinic
+                </div>
+                <p class="text-gray-800 text-base px-6 mb-5">
+                  State-of-the-art facilities to provide the best eye care
+                  services.
+                </p>
+              </a>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <a
+                class="flex flex-wrap no-underline hover:no-underline"
+                href="#"
+              >
+                <img
+                  alt="Team of optometrists and staff"
+                  class="h-64 w-full rounded-t pb-6"
+                  height="400"
+                  src="https://storage.googleapis.com/a1aa/image/EBqtaq4KqIMOo0g-Qi6TlxBUfsR-bW3-Lc4ibTWxtzc.jpg"
+                  width="600"
+                />
+                <div class="w-full font-bold text-xl text-gray-800 px-6">
+                  Our Team
+                </div>
+                <p class="text-gray-800 text-base px-6 mb-5">
+                  Experienced and dedicated professionals committed to your eye
+                  health.
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Contact Section -->
+    <section class="bg-gray-100 py-8" id="contact">
+      <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
+        <h2
+          class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800"
+        >
+          Contact Us
+        </h2>
+        <div class="w-full mb-4">
+          <div
+            class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+          ></div>
+        </div>
+        <div class="flex flex-wrap">
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">
+                  Get in Touch
+                </h3>
+                <p class="text-gray-600 mb-5">
+                  Have any questions? We'd love to hear from you.
+                </p>
+                <form action="#">
+                  <div class="mb-4">
+                    <label
+                      class="block text-gray-700 text-sm font-bold mb-2"
+                      for="name"
+                    >
+                      Name
+                    </label>
+                    <input
+                      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="name"
+                      placeholder="Your Name"
+                      type="text"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <label
+                      class="block text-gray-700 text-sm font-bold mb-2"
+                      for="email"
+                    >
+                      Email
+                    </label>
+                    <input
+                      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="email"
+                      placeholder="Your Email"
+                      type="email"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <label
+                      class="block text-gray-700 text-sm font-bold mb-2"
+                      for="message"
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="message"
+                      placeholder="Your Message"
+                      rows="5"
+                    >
+                    </textarea>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <button
+                      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      type="button"
+                    >
+                      Send Message
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 p-6 flex flex-col flex-grow flex-shrink">
+            <div
+              class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg"
+            >
+              <div class="p-6">
+                <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">
+                  Visit Us
+                </h3>
+                <p class="text-gray-600 mb-5">
+                  454 JM Loyola St., Brgy. 4, Carmona, Cavite 4116
+                </p>
+                <p class="text-gray-600 mb-5">Telephone: 046-430-2280</p>
+                <p class="text-gray-600 mb-5">
+                  Mobile Phone: 0933-934-4192 | 0915-348-4622
+                </p>
+                <p class="text-gray-600 mb-5">
+                  Email: eduina.dichoso@yahoo.com.ph
+                </p>
+                <div class="mt-6">
+                  <img
+                    alt="Map showing the location of the optometric clinic"
+                    class="rounded-lg shadow-xl"
+                    height="400"
+                    src="{{ url_for('static', filename='src/location.png') }}"
+                    width="600"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-white">
+      <div class="container mx-auto px-6 py-4">
+        <div class="flex flex-col items-center">
+          <div class="sm:w-2/3 text-center py-6">
+            <p class="text-sm text-gray-600 font-bold mb-2">
+              © 2025 by Bayugo-Dichoso Optometric Clinic. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

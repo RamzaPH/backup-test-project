@@ -1,0 +1,409 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>EO Executive Optical - Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header with Settings link -->
+    <header class="bg-white shadow-md sticky top-0 z-30">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
+      >
+        <div class="flex items-center space-x-3">
+          <img
+            alt="EO Executive Optical logo, stylized letters EO in blue and gray"
+            class="h-10 w-10 rounded-full"
+            height="40"
+            src="{{ url_for('static', filename='src/logo2.jpg') }}"
+            width="40"
+          />
+          <h1 class="text-xl font-semibold text-gray-800">
+            Bayugo-Dichoso Optometric Clinic
+          </h1>
+        </div>
+        <nav class="hidden md:flex space-x-6 text-gray-600 font-medium">
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'dashboard' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_dashboard') }}"
+          >
+            Dashboard
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'appointment' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_appointment') }}"
+          >
+            Appointments
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'prescription' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_prescription') }}"
+          >
+            Prescriptions
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'orders' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_orders') }}"
+          >
+            Orders
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'profile' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_profile') }}"
+          >
+            Profile
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'settings' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_settings') }}"
+          >
+            Settings
+          </a>
+        </nav>
+        <div class="flex items-center space-x-4">
+          <button
+            aria-label="Notifications"
+            class="relative text-gray-600 hover:text-blue-600 transition focus:outline-none"
+          >
+            <i class="fas fa-bell fa-lg"></i>
+            <span
+              class="absolute -top-1 -right-1 bg-red-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center font-semibold"
+            >
+              3
+            </span>
+          </button>
+          <div class="relative group">
+            <button
+              aria-label="User menu"
+              class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+            >
+              <img
+                alt="User profile picture of John Doe, smiling middle-aged man with glasses"
+                class="h-10 w-10 rounded-full object-cover"
+                height="40"
+                src="https://storage.googleapis.com/a1aa/image/aadd3a6f-ac3a-4c06-63bc-8abbddd64305.jpg"
+                width="40"
+              />
+              <span class="hidden sm:block text-gray-700 font-semibold">
+                John Doe
+              </span>
+              <i class="fas fa-chevron-down text-gray-500"></i>
+            </button>
+            <div
+              class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-opacity duration-200"
+            >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('user_profile') }}"
+                >Profile</a
+              >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('user_settings') }}"
+                >Settings</a
+              >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('logout') }}"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Settings Section -->
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-8">
+        Account Settings
+      </h2>
+
+      <form class="bg-white rounded-lg shadow p-8 space-y-8" novalidate>
+        <!-- Personal Information -->
+        <section aria-label="Personal Information">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            Personal Information
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label
+                for="firstName"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >First Name</label
+              >
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value="John"
+                required
+                class="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label
+                for="lastName"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Last Name</label
+              >
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value="Doe"
+                required
+                class="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              />
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                for="email"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Email Address</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value="john.doe@example.com"
+                required
+                class="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              />
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                for="phone"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Phone Number</label
+              >
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value="+1 (555) 123-4567"
+                class="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- Password Management -->
+        <section aria-label="Password Management">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            Password Management
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md">
+            <div>
+              <label
+                for="currentPassword"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Current Password</label
+              >
+              <input
+                type="password"
+                id="currentPassword"
+                name="currentPassword"
+                placeholder="••••••••"
+                required
+                class="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label
+                for="newPassword"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >New Password</label
+              >
+              <input
+                type="password"
+                id="newPassword"
+                name="newPassword"
+                placeholder="••••••••"
+                required
+                class="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label
+                for="confirmPassword"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Confirm New Password</label
+              >
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="••••••••"
+                required
+                class="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- Notification Preferences -->
+        <section aria-label="Notification Preferences">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            Notification Preferences
+          </h3>
+          <fieldset class="space-y-4 max-w-md">
+            <legend class="sr-only">Notification Preferences</legend>
+            <div class="flex items-center">
+              <input
+                id="emailNotifications"
+                name="notifications"
+                type="checkbox"
+                checked
+                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label
+                for="emailNotifications"
+                class="ml-2 block text-sm text-gray-700"
+                >Email Notifications</label
+              >
+            </div>
+            <div class="flex items-center">
+              <input
+                id="smsNotifications"
+                name="notifications"
+                type="checkbox"
+                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label
+                for="smsNotifications"
+                class="ml-2 block text-sm text-gray-700"
+                >SMS Notifications</label
+              >
+            </div>
+            <div class="flex items-center">
+              <input
+                id="pushNotifications"
+                name="notifications"
+                type="checkbox"
+                checked
+                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label
+                for="pushNotifications"
+                class="ml-2 block text-sm text-gray-700"
+                >Push Notifications</label
+              >
+            </div>
+          </fieldset>
+        </section>
+
+        <!-- Privacy Settings -->
+        <section aria-label="Privacy Settings">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            Privacy Settings
+          </h3>
+          <fieldset class="space-y-4 max-w-md">
+            <legend class="sr-only">Privacy Settings</legend>
+            <div class="flex items-center">
+              <input
+                id="profileVisibility"
+                name="privacy"
+                type="checkbox"
+                checked
+                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label
+                for="profileVisibility"
+                class="ml-2 block text-sm text-gray-700"
+                >Make my profile visible to others</label
+              >
+            </div>
+            <div class="flex items-center">
+              <input
+                id="dataSharing"
+                name="privacy"
+                type="checkbox"
+                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label for="dataSharing" class="ml-2 block text-sm text-gray-700"
+                >Allow data sharing with partners</label
+              >
+            </div>
+          </fieldset>
+        </section>
+
+        <div class="pt-6 border-t border-gray-200">
+          <button
+            type="submit"
+            class="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-md font-semibold text-lg transition"
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-6 mt-auto">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm"
+      >
+        © 2024 EO Executive Optical. All rights reserved.
+      </div>
+    </footer>
+
+    <script>
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Simple form validation and submission handler
+      const form = document.querySelector("form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const currentPassword = form.currentPassword.value.trim();
+        const newPassword = form.newPassword.value.trim();
+        const confirmPassword = form.confirmPassword.value.trim();
+
+        if (newPassword !== confirmPassword) {
+          alert("New password and confirmation do not match.");
+          return;
+        }
+
+        if (newPassword && newPassword.length < 8) {
+          alert("New password must be at least 8 characters long.");
+          return;
+        }
+
+        // Here you would normally send data to the server
+        alert("Settings saved successfully!");
+        form.reset();
+      });
+    </script>
+    <!-- Footer -->
+    <footer class="bg-white">
+      <div class="container mx-auto px-6 py-4">
+        <div class="flex flex-col items-center">
+          <div class="sm:w-2/3 text-center py-6">
+            <p class="text-sm text-gray-600 font-bold mb-2">
+              © 2025 by Bayugo-Dichoso Optometric Clinic. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

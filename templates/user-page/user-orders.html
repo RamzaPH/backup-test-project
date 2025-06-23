@@ -1,0 +1,501 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>EO Executive Optical - Orders Section</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header with Orders link -->
+    <header class="bg-white shadow-md sticky top-0 z-30">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
+      >
+        <div class="flex items-center space-x-3">
+          <img
+            alt="EO Executive Optical logo, stylized letters EO in blue and gray"
+            class="h-10 w-10 rounded-full"
+            height="40"
+            src="{{ url_for('static', filename='src/logo2.jpg') }}"
+            width="40"
+          />
+          <h1 class="text-xl font-semibold text-gray-800">
+            Bayugo-Dichoso Optometric Clinic
+          </h1>
+        </div>
+        <nav class="hidden md:flex space-x-6 text-gray-600 font-medium">
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'dashboard' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_dashboard') }}"
+          >
+            Dashboard
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'appointment' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_appointment') }}"
+          >
+            Appointments
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'prescription' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_prescription') }}"
+          >
+            Prescriptions
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'orders' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_orders') }}"
+          >
+            Orders
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'profile' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_profile') }}"
+          >
+            Profile
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'settings' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_settings') }}"
+          >
+            Settings
+          </a>
+        </nav>
+        <div class="flex items-center space-x-4">
+          <button
+            aria-label="Notifications"
+            class="relative text-gray-600 hover:text-blue-600 transition focus:outline-none"
+          >
+            <i class="fas fa-bell fa-lg"></i>
+            <span
+              class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1.5"
+              >3</span
+            >
+          </button>
+          <div class="relative group">
+            <button
+              aria-label="User menu"
+              class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+            >
+              <img
+                alt="User profile picture of John Doe, smiling middle-aged man with glasses"
+                class="h-10 w-10 rounded-full object-cover"
+                height="40"
+                src="https://storage.googleapis.com/a1aa/image/aadd3a6f-ac3a-4c06-63bc-8abbddd64305.jpg"
+                width="40"
+              />
+              <span class="hidden sm:block text-gray-700 font-semibold">
+                John Doe
+              </span>
+              <i class="fas fa-chevron-down text-gray-500"></i>
+            </button>
+            <div
+              class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-opacity duration-200"
+            >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('user_profile') }}"
+                >Profile</a
+              >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('user_settings') }}"
+                >Settings</a
+              >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('logout') }}"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Orders Section -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-6">Your Orders</h2>
+
+      <section
+        aria-label="Orders filters"
+        class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0"
+      >
+        <div class="flex items-center space-x-2">
+          <label for="statusFilter" class="text-gray-700 font-medium"
+            >Filter by Status:</label
+          >
+          <select
+            id="statusFilter"
+            class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+          >
+            <option value="all" selected>All</option>
+            <option value="delivered">Delivered</option>
+            <option value="processing">Processing</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="flex items-center space-x-2">
+          <label for="searchOrder" class="text-gray-700 font-medium"
+            >Search Order #:</label
+          >
+          <input
+            type="text"
+            id="searchOrder"
+            placeholder="e.g. 1001"
+            class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+          />
+        </div>
+      </section>
+
+      <section
+        aria-label="Orders list"
+        class="overflow-x-auto rounded-lg shadow bg-white"
+      >
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                scope="col"
+              >
+                Order #
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                scope="col"
+              >
+                Date
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                scope="col"
+              >
+                Items
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                scope="col"
+              >
+                Status
+              </th>
+              <th
+                class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                scope="col"
+              >
+                Total
+              </th>
+              <th
+                class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                scope="col"
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200" id="ordersTableBody">
+            <tr>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium"
+              >
+                #1001
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                2024-06-10
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                2 Eyeglasses, 1 Sunglasses
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                  >Delivered</span
+                >
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right"
+              >
+                $450.00
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <button
+                  aria-label="View details for order 1001"
+                  class="text-blue-600 hover:text-blue-800 focus:outline-none"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium"
+              >
+                #1002
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                2024-06-05
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                1 Contact Lens
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                  >Processing</span
+                >
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right"
+              >
+                $120.00
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <button
+                  aria-label="View details for order 1002"
+                  class="text-blue-600 hover:text-blue-800 focus:outline-none"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium"
+              >
+                #1003
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                2024-05-28
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                1 Eyeglasses
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
+                  >Cancelled</span
+                >
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right"
+              >
+                $200.00
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <button
+                  aria-label="View details for order 1003"
+                  class="text-blue-600 hover:text-blue-800 focus:outline-none"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium"
+              >
+                #1004
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                2024-05-20
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                3 Sunglasses
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                  >Delivered</span
+                >
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right"
+              >
+                $600.00
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <button
+                  aria-label="View details for order 1004"
+                  class="text-blue-600 hover:text-blue-800 focus:outline-none"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium"
+              >
+                #1005
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                2024-05-15
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                1 Eyeglasses, 2 Contact Lenses
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                  >Processing</span
+                >
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right"
+              >
+                $350.00
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <button
+                  aria-label="View details for order 1005"
+                  class="text-blue-600 hover:text-blue-800 focus:outline-none"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-6 mt-auto">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm"
+      >
+        © 2024 EO Executive Optical. All rights reserved.
+      </div>
+    </footer>
+
+    <script>
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Filter orders by status and search order number
+      const statusFilter = document.getElementById("statusFilter");
+      const searchOrder = document.getElementById("searchOrder");
+      const ordersTableBody = document.getElementById("ordersTableBody");
+
+      const orders = [
+        {
+          orderNumber: "#1001",
+          date: "2024-06-10",
+          items: "2 Eyeglasses, 1 Sunglasses",
+          status: "Delivered",
+          total: "$450.00",
+        },
+        {
+          orderNumber: "#1002",
+          date: "2024-06-05",
+          items: "1 Contact Lens",
+          status: "Processing",
+          total: "$120.00",
+        },
+        {
+          orderNumber: "#1003",
+          date: "2024-05-28",
+          items: "1 Eyeglasses",
+          status: "Cancelled",
+          total: "$200.00",
+        },
+        {
+          orderNumber: "#1004",
+          date: "2024-05-20",
+          items: "3 Sunglasses",
+          status: "Delivered",
+          total: "$600.00",
+        },
+        {
+          orderNumber: "#1005",
+          date: "2024-05-15",
+          items: "1 Eyeglasses, 2 Contact Lenses",
+          status: "Processing",
+          total: "$350.00",
+        },
+      ];
+
+      function renderOrders(filterStatus, searchTerm) {
+        ordersTableBody.innerHTML = "";
+        const filteredOrders = orders.filter((order) => {
+          const matchesStatus =
+            filterStatus === "all" ||
+            order.status.toLowerCase() === filterStatus.toLowerCase();
+          const matchesSearch =
+            searchTerm === "" ||
+            order.orderNumber.toLowerCase().includes(searchTerm.toLowerCase());
+          return matchesStatus && matchesSearch;
+        });
+
+        if (filteredOrders.length === 0) {
+          ordersTableBody.innerHTML =
+            '<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">No orders found.</td></tr>';
+          return;
+        }
+
+        filteredOrders.forEach((order) => {
+          const statusColors = {
+            Delivered: "bg-green-100 text-green-800",
+            Processing: "bg-yellow-100 text-yellow-800",
+            Cancelled: "bg-red-100 text-red-800",
+          };
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">${
+            order.orderNumber
+          }</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${
+            order.date
+          }</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${
+            order.items
+          }</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+              statusColors[order.status]
+            }">${order.status}</span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">${
+            order.total
+          }</td>
+          <td class="px-6 py-4 whitespace-nowrap text-center">
+            <button aria-label="View details for order ${order.orderNumber.substring(
+              1
+            )}" class="text-blue-600 hover:text-blue-800 focus:outline-none">
+              <i class="fas fa-eye"></i>
+            </button>
+          </td>
+        `;
+          ordersTableBody.appendChild(tr);
+        });
+      }
+
+      statusFilter.addEventListener("change", () => {
+        renderOrders(statusFilter.value, searchOrder.value.trim());
+      });
+
+      searchOrder.addEventListener("input", () => {
+        renderOrders(statusFilter.value, searchOrder.value.trim());
+      });
+
+      // Initial render
+      renderOrders("all", "");
+    </script>
+  </body>
+</html>

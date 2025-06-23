@@ -1,0 +1,417 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Reports - EO Executive Optical Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-30">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
+      >
+        <div class="flex items-center space-x-3">
+          <img
+            alt="Bayugo-Dichoso Optometric Clinic logo"
+            class="h-10 w-10 rounded-full"
+            height="40"
+            src="{{ url_for('static', filename='src/logo2.jpg') }}"
+            width="40"
+          />
+          <h1 class="text-xl font-semibold text-gray-800">
+            Bayugo-Dichoso Optometric Clinic
+          </h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button
+            aria-label="Search"
+            class="text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+          >
+            <i class="fas fa-search fa-lg"></i>
+          </button>
+          <button
+            aria-label="Notifications"
+            class="relative text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+          >
+            <i class="fas fa-bell fa-lg"></i>
+            <span
+              class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-semibold rounded-full px-1.5"
+              >3</span
+            >
+          </button>
+          <div class="relative group">
+            <button
+              aria-label="User menu"
+              class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+            >
+              <img
+                alt="User profile picture"
+                class="h-8 w-8 rounded-full"
+                height="32"
+                src="https://storage.googleapis.com/a1aa/image/a431c417-c534-425f-aefa-95fbd26b34c0.jpg"
+                width="32"
+              />
+              <span class="text-gray-700 font-medium"> Admin </span>
+              <i class="fas fa-chevron-down text-gray-600"></i>
+            </button>
+            <div
+              class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-opacity duration-200"
+            >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('admin_profile') }}"
+                >Profile</a
+              >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('admin_pages', page='settings') }}"
+                >Settings</a
+              >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('logout') }}"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Sidebar -->
+      <nav
+        aria-label="Sidebar"
+        class="bg-white w-64 border-r border-gray-200 flex-shrink-0 overflow-y-auto hidden md:block"
+      >
+        <div class="py-6 px-4">
+          <ul class="space-y-2">
+            <li>
+              <a
+                class="flex items-center px-3 py-2 rounded-md {% if current_page == 'dashboard' %}text-gray-900 bg-blue-100 font-semibold{% else %}text-gray-700 hover:bg-gray-100{% endif %}"
+                href="{{ url_for('admin_dashboard') }}"
+              >
+                <i class="fas fa-tachometer-alt mr-3 text-blue-600"></i>
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a
+                class="flex items-center px-3 py-2 rounded-md {% if current_page == 'patient' %}text-gray-900 bg-blue-100 font-semibold{% else %}text-gray-700 hover:bg-gray-100{% endif %}"
+                href="{{ url_for('admin_patient') }}"
+              >
+                <i class="fas fa-user-md mr-3 text-gray-500"></i>
+                Patients
+              </a>
+            </li>
+            <li>
+              <a
+                class="flex items-center px-3 py-2 rounded-md {% if current_page == 'appointment' %}text-gray-900 bg-blue-100 font-semibold{% else %}text-gray-700 hover:bg-gray-100{% endif %}"
+                href="{{ url_for('admin_appointment') }}"
+              >
+                <i class="fas fa-calendar-check mr-3 text-gray-500"></i>
+                Appointments
+              </a>
+            </li>
+            <li>
+              <a
+                class="flex items-center px-3 py-2 rounded-md {% if current_page == 'profile' %}text-gray-900 bg-blue-100 font-semibold{% else %}text-gray-700 hover:bg-gray-100{% endif %}"
+                href="{{ url_for('admin_profile') }}"
+              >
+                <i class="fas fa-user mr-3 text-gray-500"></i>
+                Profile
+              </a>
+            </li>
+            <li>
+              <a
+                class="flex items-center px-3 py-2 rounded-md {% if current_page == 'reports' %}text-gray-900 bg-blue-100 font-semibold{% else %}text-gray-700 hover:bg-gray-100{% endif %}"
+                href="{{ url_for('admin_reports') }}"
+              >
+                <i class="fas fa-chart-line mr-3 text-gray-500"></i>
+                Reports
+              </a>
+            </li>
+            <li>
+              <a
+                class="flex items-center px-3 py-2 rounded-md {% if current_page == 'settings' %}text-gray-900 bg-blue-100 font-semibold{% else %}text-gray-700 hover:bg-gray-100{% endif %}"
+                href="{{ url_for('admin_settings') }}"
+              >
+                <i class="fas fa-cogs mr-3 text-gray-500"></i>
+                Settings
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- Main content -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Reports</h2>
+
+        <!-- Report Filters -->
+        <form
+          class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0"
+          aria-label="Filter reports"
+        >
+          <div
+            class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 w-full sm:w-auto"
+          >
+            <label for="report-type" class="sr-only">Report Type</label>
+            <select
+              id="report-type"
+              name="report-type"
+              class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              aria-label="Select report type"
+            >
+              <option value="appointments">Appointments</option>
+              <option value="patients">Patients</option>
+              <option value="billing">Billing</option>
+              <option value="inventory">Inventory</option>
+            </select>
+          </div>
+          <div
+            class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 w-full sm:w-auto"
+          >
+            <label for="start-date" class="sr-only">Start Date</label>
+            <input
+              type="date"
+              id="start-date"
+              name="start-date"
+              class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              aria-label="Select start date"
+            />
+            <label for="end-date" class="sr-only">End Date</label>
+            <input
+              type="date"
+              id="end-date"
+              name="end-date"
+              class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              aria-label="Select end date"
+            />
+          </div>
+          <button
+            type="submit"
+            class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+          >
+            <i class="fas fa-filter mr-2"></i> Filter
+          </button>
+        </form>
+
+        <!-- Reports Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div
+            class="bg-white rounded-lg shadow p-5 flex items-center space-x-4"
+          >
+            <div class="p-3 bg-blue-100 text-blue-600 rounded-full">
+              <i class="fas fa-calendar-check fa-2x"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-500">
+                Total Appointments
+              </p>
+              <p class="text-2xl font-semibold text-gray-900">1,230</p>
+            </div>
+          </div>
+          <div
+            class="bg-white rounded-lg shadow p-5 flex items-center space-x-4"
+          >
+            <div class="p-3 bg-green-100 text-green-600 rounded-full">
+              <i class="fas fa-user-injured fa-2x"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-500">New Patients</p>
+              <p class="text-2xl font-semibold text-gray-900">320</p>
+            </div>
+          </div>
+          <div
+            class="bg-white rounded-lg shadow p-5 flex items-center space-x-4"
+          >
+            <div class="p-3 bg-yellow-100 text-yellow-600 rounded-full">
+              <i class="fas fa-file-invoice-dollar fa-2x"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-500">Total Revenue</p>
+              <p class="text-2xl font-semibold text-gray-900">$58,400</p>
+            </div>
+          </div>
+          <div
+            class="bg-white rounded-lg shadow p-5 flex items-center space-x-4"
+          >
+            <div class="p-3 bg-red-100 text-red-600 rounded-full">
+              <i class="fas fa-exclamation-triangle fa-2x"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-500">Pending Bills</p>
+              <p class="text-2xl font-semibold text-gray-900">$7,850</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Appointments Over Time Chart -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+              Appointments Over Time
+            </h3>
+            <canvas
+              id="appointmentsChart"
+              aria-label="Line chart showing appointments over time"
+              role="img"
+              class="w-full h-64"
+            ></canvas>
+          </div>
+
+          <!-- Revenue Breakdown Chart -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+              Revenue Breakdown
+            </h3>
+            <canvas
+              id="revenueChart"
+              aria-label="Pie chart showing revenue breakdown by category"
+              role="img"
+              class="w-full h-64"
+            ></canvas>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Mobile bottom navigation -->
+    <nav
+      aria-label="Mobile bottom navigation"
+      class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow md:hidden"
+    >
+      <div class="flex justify-around">
+        <a
+          class="w-full py-2 flex flex-col items-center justify-center text-gray-600 hover:text-gray-900"
+          href="#"
+        >
+          <i class="fas fa-tachometer-alt fa-lg"></i>
+          <span class="text-xs mt-1">Dashboard</span>
+        </a>
+        <a
+          class="w-full py-2 flex flex-col items-center justify-center text-gray-600 hover:text-gray-900"
+          href="#"
+        >
+          <i class="fas fa-user-md fa-lg"></i>
+          <span class="text-xs mt-1">Patients</span>
+        </a>
+        <a
+          class="w-full py-2 flex flex-col items-center justify-center text-gray-600 hover:text-gray-900"
+          href="#"
+        >
+          <i class="fas fa-calendar-check fa-lg"></i>
+          <span class="text-xs mt-1">Appointments</span>
+        </a>
+        <a
+          aria-current="page"
+          class="w-full py-2 flex flex-col items-center justify-center text-blue-600 border-t-2 border-blue-600"
+          href="#"
+        >
+          <i class="fas fa-chart-line fa-lg"></i>
+          <span class="text-xs mt-1 font-semibold">Reports</span>
+        </a>
+        <a
+          class="w-full py-2 flex flex-col items-center justify-center text-gray-600 hover:text-gray-900"
+          href="#"
+        >
+          <i class="fas fa-cogs fa-lg"></i>
+          <span class="text-xs mt-1">Settings</span>
+        </a>
+      </div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const ctxAppointments = document
+        .getElementById("appointmentsChart")
+        .getContext("2d");
+      const appointmentsChart = new Chart(ctxAppointments, {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          datasets: [
+            {
+              label: "Appointments",
+              data: [120, 150, 170, 140, 180, 200],
+              borderColor: "#3b82f6",
+              backgroundColor: "rgba(59, 130, 246, 0.2)",
+              fill: true,
+              tension: 0.3,
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              borderWidth: 3,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: { mode: "index", intersect: false },
+          },
+          scales: {
+            x: { grid: { display: false } },
+            y: {
+              beginAtZero: true,
+              grid: { color: "#e5e7eb" },
+              ticks: { stepSize: 20 },
+            },
+          },
+        },
+      });
+
+      const ctxRevenue = document
+        .getElementById("revenueChart")
+        .getContext("2d");
+      const revenueChart = new Chart(ctxRevenue, {
+        type: "doughnut",
+        data: {
+          labels: ["Glasses", "Contact Lenses", "Eye Exams", "Others"],
+          datasets: [
+            {
+              data: [35000, 15000, 6000, 2400],
+              backgroundColor: ["#3b82f6", "#10b981", "#fbbf24", "#ef4444"],
+              hoverOffset: 30,
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: "bottom" },
+            tooltip: { enabled: true },
+          },
+        },
+      });
+    </script>
+    <!-- Footer -->
+    <footer class="bg-white">
+      <div class="container mx-auto px-6 py-4">
+        <div class="flex flex-col items-center">
+          <div class="sm:w-2/3 text-center py-6">
+            <p class="text-sm text-gray-600 font-bold mb-2">
+              © 2025 by Bayugo-Dichoso Optometric Clinic. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

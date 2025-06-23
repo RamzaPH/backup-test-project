@@ -1,0 +1,477 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Bayugo-Dichoso Optometric Clinic User Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-30">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
+      >
+        <div class="flex items-center space-x-3">
+          <img
+            alt="EO Executive Optical logo, stylized letters EO in blue and gray"
+            class="h-10 w-10 rounded-full"
+            height="40"
+            src="{{ url_for('static', filename='src/logo2.jpg') }}"
+            width="40"
+          />
+          <h1 class="text-xl font-semibold text-gray-800">
+            Bayugo-Dichoso Optometric Clinic
+          </h1>
+        </div>
+        <nav class="hidden md:flex space-x-6 text-gray-600 font-medium">
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'dashboard' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_dashboard') }}"
+          >
+            Dashboard
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'appointment' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_appointment') }}"
+          >
+            Appointments
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'prescription' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_prescription') }}"
+          >
+            Prescriptions
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'orders' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_orders') }}"
+          >
+            Orders
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'profile' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_profile') }}"
+          >
+            Profile
+          </a>
+          <a
+            class="hover:text-blue-600 transition {% if current_page == 'Settings' %}text-blue-600 font-semibold{% endif %}"
+            href="{{ url_for('user_settings') }}"
+          >
+            Settings
+          </a>
+        </nav>
+        <div class="flex items-center space-x-4">
+          <button
+            aria-label="Notifications"
+            class="relative text-gray-600 hover:text-blue-600 transition focus:outline-none"
+          >
+            <i class="fas fa-bell fa-lg"> </i>
+            <span
+              class="absolute -top-1 -right-1 bg-red-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center font-semibold"
+            >
+              3
+            </span>
+          </button>
+          <div class="relative group">
+            <button
+              aria-label="User menu"
+              class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+            >
+              <img
+                alt="User profile picture of John Doe, smiling middle-aged man with glasses"
+                class="h-10 w-10 rounded-full object-cover"
+                height="40"
+                src="https://storage.googleapis.com/a1aa/image/aadd3a6f-ac3a-4c06-63bc-8abbddd64305.jpg"
+                width="40"
+              />
+              <span class="hidden sm:block text-gray-700 font-semibold">
+                John Doe
+              </span>
+              <i class="fas fa-chevron-down text-gray-500"> </i>
+            </button>
+            <div
+              class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-opacity duration-200"
+            >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('user_profile') }}"
+                >Profile</a
+              >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('user_settings') }}"
+                >Settings</a
+              >
+              <a
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="{{ url_for('logout') }}"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+        Welcome back, John!
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Upcoming Appointment -->
+        <section
+          aria-labelledby="upcoming-appointment-title"
+          class="bg-white rounded-lg shadow p-6 flex flex-col justify-between"
+        >
+          <div>
+            <h3
+              class="text-lg font-semibold text-gray-700 mb-3 flex items-center"
+              id="upcoming-appointment-title"
+            >
+              <i class="fas fa-calendar-check text-blue-600 mr-2"> </i>
+              Upcoming Appointment
+            </h3>
+            <p class="text-gray-600 mb-1 font-medium">
+              Date:
+              <span class="font-normal"> June 15, 2024 </span>
+            </p>
+            <p class="text-gray-600 mb-1 font-medium">
+              Time:
+              <span class="font-normal"> 2:30 PM </span>
+            </p>
+            <p class="text-gray-600 mb-1 font-medium">
+              Optometrist:
+              <span class="font-normal"> Dr. Emily Carter </span>
+            </p>
+            <p class="text-gray-600 font-medium">
+              Location:
+              <span class="font-normal">
+                EO Executive Optical - Downtown Clinic
+              </span>
+            </p>
+          </div>
+          <button
+            class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded transition"
+            type="button"
+          >
+            View Details
+          </button>
+        </section>
+        <!-- Prescription Summary -->
+        <section
+          aria-labelledby="prescription-summary-title"
+          class="bg-white rounded-lg shadow p-6 flex flex-col justify-between"
+        >
+          <div>
+            <h3
+              class="text-lg font-semibold text-gray-700 mb-3 flex items-center"
+              id="prescription-summary-title"
+            >
+              <i class="fas fa-prescription-bottle-alt text-green-600 mr-2">
+              </i>
+              Prescription Summary
+            </h3>
+            <p class="text-gray-600 mb-2 font-medium">
+              Last Updated:
+              <span class="font-normal"> May 20, 2024 </span>
+            </p>
+            <div class="space-y-2">
+              <div
+                class="flex justify-between text-gray-700 font-semibold border-b border-gray-200 pb-1"
+              >
+                <span> Right Eye (OD) </span>
+                <span> SPH: -1.25 </span>
+                <span> CYL: -0.50 </span>
+                <span> Axis: 180° </span>
+              </div>
+              <div
+                class="flex justify-between text-gray-700 font-semibold border-b border-gray-200 pb-1"
+              >
+                <span> Left Eye (OS) </span>
+                <span> SPH: -1.00 </span>
+                <span> CYL: -0.75 </span>
+                <span> Axis: 170° </span>
+              </div>
+              <div class="flex justify-between text-gray-700 font-semibold">
+                <span> PD (Pupillary Distance) </span>
+                <span> 62 mm </span>
+              </div>
+            </div>
+          </div>
+          <button
+            class="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded transition"
+            type="button"
+          >
+            View Full Prescription
+          </button>
+        </section>
+        <!-- Order Status -->
+        <section
+          aria-labelledby="order-status-title"
+          class="bg-white rounded-lg shadow p-6 flex flex-col justify-between"
+        >
+          <div>
+            <h3
+              class="text-lg font-semibold text-gray-700 mb-3 flex items-center"
+              id="order-status-title"
+            >
+              <i class="fas fa-shopping-cart text-purple-600 mr-2"> </i>
+              Recent Orders
+            </h3>
+            <ul class="divide-y divide-gray-200 max-h-48 overflow-y-auto">
+              <li class="py-2 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <img
+                    alt="Black rectangular eyeglasses with thin metal frame on white background"
+                    class="w-12 h-12 rounded-md object-cover"
+                    height="48"
+                    src="https://storage.googleapis.com/a1aa/image/50ea7534-677f-4984-8a46-d986717108b6.jpg"
+                    width="48"
+                  />
+                  <div>
+                    <p class="font-semibold text-gray-700">
+                      Classic Black Glasses
+                    </p>
+                    <p class="text-sm text-gray-500">Order #12345</p>
+                  </div>
+                </div>
+                <span class="text-sm font-semibold text-yellow-600">
+                  Processing
+                </span>
+              </li>
+              <li class="py-2 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <img
+                    alt="Box of daily disposable contact lenses with blue and white packaging"
+                    class="w-12 h-12 rounded-md object-cover"
+                    height="48"
+                    src="https://storage.googleapis.com/a1aa/image/b5be742d-78d6-4b0f-6ea0-da5e6fa5cdac.jpg"
+                    width="48"
+                  />
+                  <div>
+                    <p class="font-semibold text-gray-700">
+                      Daily Contact Lenses
+                    </p>
+                    <p class="text-sm text-gray-500">Order #12344</p>
+                  </div>
+                </div>
+                <span class="text-sm font-semibold text-green-600">
+                  Delivered
+                </span>
+              </li>
+              <li class="py-2 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <img
+                    alt="Bottle of lens cleaner spray with blue label and transparent bottle"
+                    class="w-12 h-12 rounded-md object-cover"
+                    height="48"
+                    src="https://storage.googleapis.com/a1aa/image/352066c3-f42e-4bf1-2391-003948eedd21.jpg"
+                    width="48"
+                  />
+                  <div>
+                    <p class="font-semibold text-gray-700">
+                      Lens Cleaner Spray
+                    </p>
+                    <p class="text-sm text-gray-500">Order #12343</p>
+                  </div>
+                </div>
+                <span class="text-sm font-semibold text-red-600">
+                  Cancelled
+                </span>
+              </li>
+            </ul>
+            <button
+              class="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded transition w-full"
+              type="button"
+            >
+              View All Orders
+            </button>
+          </div>
+        </section>
+      </div>
+      <!-- Eyewear Recommendations -->
+      <section aria-labelledby="recommendations-title" class="mb-10">
+        <h3
+          class="text-xl font-semibold text-gray-800 mb-4 flex items-center"
+          id="recommendations-title"
+        >
+          <i class="fas fa-lightbulb text-yellow-500 mr-2"> </i>
+          Eyewear Recommendations
+        </h3>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        >
+          <article class="bg-white rounded-lg shadow p-4 flex flex-col">
+            <img
+              alt="Blue round eyeglasses with thin metal frame on white background"
+              class="rounded-md object-cover mb-3 h-48 w-full"
+              height="200"
+              src="https://storage.googleapis.com/a1aa/image/2a0e4f99-3714-47b5-c8bf-3f77cb083407.jpg"
+              width="300"
+            />
+            <h4 class="font-semibold text-gray-700 mb-1">Blue Round Glasses</h4>
+            <p class="text-gray-600 text-sm mb-2">
+              Lightweight metal frame with anti-reflective coating.
+            </p>
+            <span class="font-semibold text-blue-600"> $120.00 </span>
+            <button
+              class="mt-auto bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition mt-4"
+              type="button"
+            >
+              Add to Cart
+            </button>
+          </article>
+          <article class="bg-white rounded-lg shadow p-4 flex flex-col">
+            <img
+              alt="Classic tortoise shell rectangular eyeglasses with thick plastic frame on white background"
+              class="rounded-md object-cover mb-3 h-48 w-full"
+              height="200"
+              src="https://storage.googleapis.com/a1aa/image/c1d18f83-00fb-4215-6bc3-d3a0acff0b4d.jpg"
+              width="300"
+            />
+            <h4 class="font-semibold text-gray-700 mb-1">
+              Classic Tortoise Frames
+            </h4>
+            <p class="text-gray-600 text-sm mb-2">
+              Durable acetate frame with spring hinges for comfort.
+            </p>
+            <span class="font-semibold text-blue-600"> $150.00 </span>
+            <button
+              class="mt-auto bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition mt-4"
+              type="button"
+            >
+              Add to Cart
+            </button>
+          </article>
+          <article class="bg-white rounded-lg shadow p-4 flex flex-col">
+            <img
+              alt="Sporty wrap-around eyeglasses with black rubberized frame on white background"
+              class="rounded-md object-cover mb-3 h-48 w-full"
+              height="200"
+              src="https://storage.googleapis.com/a1aa/image/9e5a2a09-0a25-462c-e97b-c4c85995b426.jpg"
+              width="300"
+            />
+            <h4 class="font-semibold text-gray-700 mb-1">
+              Sporty Wrap Glasses
+            </h4>
+            <p class="text-gray-600 text-sm mb-2">
+              Perfect for active lifestyles with anti-slip nose pads.
+            </p>
+            <span class="font-semibold text-blue-600"> $180.00 </span>
+            <button
+              class="mt-auto bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition mt-4"
+              type="button"
+            >
+              Add to Cart
+            </button>
+          </article>
+          <article class="bg-white rounded-lg shadow p-4 flex flex-col">
+            <img
+              alt="Elegant cat-eye eyeglasses with glossy black frame and gold accents on white background"
+              class="rounded-md object-cover mb-3 h-48 w-full"
+              height="200"
+              src="https://storage.googleapis.com/a1aa/image/05ffcf87-4dea-49d8-f49e-91ddcdac0705.jpg"
+              width="300"
+            />
+            <h4 class="font-semibold text-gray-700 mb-1">
+              Elegant Cat-Eye Frames
+            </h4>
+            <p class="text-gray-600 text-sm mb-2">
+              Stylish design with premium materials and UV protection.
+            </p>
+            <span class="font-semibold text-blue-600"> $210.00 </span>
+            <button
+              class="mt-auto bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition mt-4"
+              type="button"
+            >
+              Add to Cart
+            </button>
+          </article>
+        </div>
+      </section>
+      <!-- Health Tips -->
+      <section aria-labelledby="health-tips-title" class="mb-10">
+        <h3
+          class="text-xl font-semibold text-gray-800 mb-4 flex items-center"
+          id="health-tips-title"
+        >
+          <i class="fas fa-heartbeat text-red-500 mr-2"> </i>
+          Eye Health Tips
+        </h3>
+        <ul class="space-y-4 max-w-4xl">
+          <li class="bg-white rounded-lg shadow p-4 flex items-start space-x-4">
+            <i class="fas fa-lightbulb text-yellow-400 text-2xl mt-1"> </i>
+            <div>
+              <h4 class="font-semibold text-gray-700 mb-1">
+                Take Regular Breaks
+              </h4>
+              <p class="text-gray-600 text-sm">
+                Follow the 20-20-20 rule: every 20 minutes, look at something 20
+                feet away for 20 seconds to reduce eye strain.
+              </p>
+            </div>
+          </li>
+          <li class="bg-white rounded-lg shadow p-4 flex items-start space-x-4">
+            <i class="fas fa-sun text-yellow-400 text-2xl mt-1"> </i>
+            <div>
+              <h4 class="font-semibold text-gray-700 mb-1">
+                Protect Your Eyes from UV Rays
+              </h4>
+              <p class="text-gray-600 text-sm">
+                Always wear sunglasses with 100% UV protection when outdoors to
+                prevent damage from harmful rays.
+              </p>
+            </div>
+          </li>
+          <li class="bg-white rounded-lg shadow p-4 flex items-start space-x-4">
+            <i class="fas fa-tint text-blue-400 text-2xl mt-1"> </i>
+            <div>
+              <h4 class="font-semibold text-gray-700 mb-1">Stay Hydrated</h4>
+              <p class="text-gray-600 text-sm">
+                Drinking plenty of water helps maintain moisture in your eyes
+                and prevents dryness.
+              </p>
+            </div>
+          </li>
+          <li class="bg-white rounded-lg shadow p-4 flex items-start space-x-4">
+            <i class="fas fa-carrot text-orange-400 text-2xl mt-1"> </i>
+            <div>
+              <h4 class="font-semibold text-gray-700 mb-1">
+                Eat Eye-Friendly Foods
+              </h4>
+              <p class="text-gray-600 text-sm">
+                Include foods rich in vitamins A, C, and E, as well as omega-3
+                fatty acids, to support eye health.
+              </p>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-white">
+      <div class="container mx-auto px-6 py-4">
+        <div class="flex flex-col items-center">
+          <div class="sm:w-2/3 text-center py-6">
+            <p class="text-sm text-gray-600 font-bold mb-2">
+              © 2025 by Bayugo-Dichoso Optometric Clinic. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
